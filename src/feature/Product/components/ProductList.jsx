@@ -1,0 +1,33 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Box } from '@mui/system';
+import { Grid } from '@mui/material';
+import Product from './Product';
+
+ProductList.propTypes = {
+  data: PropTypes.array,
+};
+
+ProductList.defaultProps = {
+  data: [],
+};
+function ProductList({ data }) {
+  return (
+    <Box>
+      <Grid container>
+        {data.map((product, index) => {
+          return (
+            <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+              {/* xs: dưới mobie chiếm bn cột
+        sm: tablet
+        md: tab nhỏ  */}
+              <Product product={product} />
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
+  );
+}
+
+export default ProductList;
