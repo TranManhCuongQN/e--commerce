@@ -7,8 +7,8 @@ export const register = createAsyncThunk('user/register', async (payload) => {
   const data = await userApi.register(payload);
   console.log('Data:', data);
   // save data to local storage
-  localStorage.setItem(StorageKeys.TOKEN, data.data.jwt);
-  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.data.user));
+  localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
 
   //return user data
   return data.user;
@@ -18,8 +18,8 @@ export const login = createAsyncThunk('user/login', async (payload) => {
   //call API register
   const data = await userApi.login(payload);
   // save data to local storage
-  localStorage.setItem(StorageKeys.TOKEN, data.data.jwt);
-  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.data.user));
+  localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
 
   //return user data
   return data.user;
