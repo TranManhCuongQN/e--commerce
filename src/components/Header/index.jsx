@@ -26,6 +26,9 @@ const useStyles = makeStyles({
     zIndex: 1,
     marginLeft: 'auto',
   },
+  box: {
+    marginLeft: 'auto',
+  },
 });
 export default function Header() {
   // * Form Dialog
@@ -95,9 +98,11 @@ export default function Header() {
       </Box>
       {/* //* Form dialog*/}
       <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
-        <IconButton className={classes.closeButton} onClick={handleClose}>
-          <CloseIcon />
-        </IconButton>
+        <Box className={classes.box}>
+          <IconButton className={classes.closeButton} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
         <DialogContent>
           {mode === MODE.REGISTER && (
             <>
