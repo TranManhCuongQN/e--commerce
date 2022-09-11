@@ -21,7 +21,7 @@ function Product({ product }) {
     navigate(`/products/${product.id}`);
   };
   return (
-    <Box padding={1} onClick={handleClick}>
+    <Box padding={1} onClick={handleClick} style={{ cursor: 'pointer' }}>
       <Box padding={1} minHeight="215px">
         <img src={thumbnailUrl} alt={product.name} width="100%" />
       </Box>

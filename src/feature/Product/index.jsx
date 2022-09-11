@@ -11,8 +11,12 @@ function ProductFeature(props) {
   return (
     <Box pt={4}>
       <Routes>
-        <Route path="" element={<ListPage />} exact />
-        <Route path="/:productId" element={<DetailPage />} />
+        <Route path="" element={<ListPage />}></Route>
+        <Route path=":productId" element={<DetailPage />}>
+          <Route path=""></Route>
+          <Route path="additional"></Route>
+          <Route path="reviews"></Route>
+        </Route>
       </Routes>
     </Box>
   );

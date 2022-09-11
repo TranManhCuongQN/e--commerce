@@ -47,7 +47,7 @@ function QuantityField(props) {
       <Controller
         name={name}
         control={form.control}
-        render={({ onChange, onBlur, value = 1, name }) => (
+        render={({ field: { onChange, onBlur, value = 1, name }, fieldState: { invalid, error } }) => (
           <Box className={classes.box}>
             <IconButton
               onClick={() => {
@@ -57,7 +57,7 @@ function QuantityField(props) {
               <RemoveCircleOutlineIcon />
             </IconButton>
 
-            <OutlinedInput id={name} type="number" value={value} onBlur={onBlur} onChange={onChange} readOnly />
+            <OutlinedInput id={name} type="number" value={value} onBlur={onBlur} onChange={onChange} />
 
             <IconButton
               onClick={() => {
@@ -66,6 +66,7 @@ function QuantityField(props) {
             >
               <AddCircleOutlineIcon />
             </IconButton>
+            <FormHelperText error={invalid}>{error?.message}</FormHelperText>
           </Box>
         )}
       />

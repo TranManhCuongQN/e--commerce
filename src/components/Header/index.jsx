@@ -5,18 +5,20 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CodeIcon from '@mui/icons-material/Code';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Register from 'feature/Auth/components/Register';
-import { Avatar, createTheme, Icon, IconButton, Menu, MenuItem } from '@mui/material';
+import { Avatar, Badge, createTheme, Icon, IconButton, Menu, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { makeStyles } from '@mui/styles';
 import Login from 'feature/Auth/components/Login';
 import { useDispatch, useSelector } from 'react-redux';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { logout } from 'feature/Auth/userSlice';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { cartItemsCountSelector } from 'feature/Cart/selector';
 
 const theme = createTheme();
 const useStyles = makeStyles({
@@ -67,6 +69,13 @@ export default function Header() {
   const loggedInUser = useSelector((state) => state.user.current);
   // Nếu loggedInUser có id tức là nó đã đăng nhập rồi còn nếu không có id tức là nó chưa đăng nhập
   const isLoggedIn = !!loggedInUser.id;
+
+  const cartItemsCount = useSelector(cartItemsCountSelector);
+  const navigate = useNavigate();
+  const handleCartClick = () => {
+    navigate('/cart');
+  };
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -86,6 +95,11 @@ export default function Header() {
                 Login
               </Button>
             )}
+            <IconButton color="inherit" onClick={handleCartClick}>
+              <Badge badgeContent={cartItemsCount} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
 
             {/* Nếu đã đăng nhập rồi thì show cái icon */}
             {isLoggedIn && (

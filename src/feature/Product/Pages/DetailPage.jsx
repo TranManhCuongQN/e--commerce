@@ -1,18 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Container } from '@mui/system';
-import { createTheme, Grid, Paper } from '@mui/material';
+import { createTheme, Grid, LinearProgress, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import ProductThumbnail from '../components/ProductThumbnail';
-import { useParams } from 'react-router-dom';
+import { Outlet, Route, Routes, useParams } from 'react-router-dom';
 import useProductDetail from '../hooks/useProductDetail';
 import ProductInfo from '../components/ProductInfo';
 import AddToCartForm from '../components/AddToCartForm';
+import ProductMenu from '../components/ProductMenu';
+import ProductDescription from '../components/ProductDescription';
+import ProductAdditional from '../components/ProductAdditional';
+import ProductReview from '../components/ProductReview';
+import { useDispatch } from 'react-redux';
+import { addToCart } from 'feature/Cart/cartSlice';
 
 DetailPage.propTypes = {};
 const theme = createTheme();
 const useStyles = makeStyles({
-  root: {},
+  root: {
+    paddingBottom: theme.spacing(3),
+  },
   left: {
     width: '400px',
     padding: theme.spacing(1.5),
@@ -30,12 +38,19 @@ const useStyles = makeStyles({
     marginTop: '20px',
     paddingBottom: '20px',
   },
+  loading: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+  },
 });
 
 function DetailPage(props) {
   const classes = useStyles();
   const params = useParams();
   const productId = params.productId;
+  const dispatch = useDispatch();
   console.log('ProductId:  ', productId);
 
   // trả về cho mình thông tin product nó có đang loading hay không
@@ -43,11 +58,22 @@ function DetailPage(props) {
   const { product, loading } = useProductDetail(productId);
 
   if (loading) {
-    return <Box>Loading</Box>;
+    return (
+      <Box className={classes.loading}>
+        <LinearProgress />
+      </Box>
+    );
   }
 
   const handleAddToCartSubmit = (formValues) => {
     console.log('Form submit', formValues);
+    const action = addToCart({
+      id: product.id,
+      product,
+      quantity: formValues.quantity,
+    });
+    console.log('Action:', action);
+    dispatch(action);
   };
 
   return (
@@ -64,6 +90,13 @@ function DetailPage(props) {
             </Grid>
           </Grid>
         </Paper>
+        <ProductMenu />
+        <Outlet />
+        <Routes>
+          <Route path="" element={<ProductDescription product={product} />} exact="true"></Route>
+          <Route path="additional" element={<ProductAdditional />} exact="true"></Route>
+          <Route path="reviews" element={<ProductReview />} exact="true"></Route>
+        </Routes>
       </Container>
     </Box>
   );
